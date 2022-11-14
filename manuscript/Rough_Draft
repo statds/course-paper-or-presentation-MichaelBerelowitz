@@ -1,0 +1,161 @@
+\documentclass[12pt]{article}
+\title{There's No Place Like Home \\
+\large  A Statistical Analysis of Home-FIeld Advantage in Major League Baseball With and Without Fans in the Stands.}
+\author{Michael Berelowitz - University of Connecticut}
+\date{November 14, 2022}
+\begin{document}
+\maketitle
+
+\section*{Abstract}
+
+\noindent Home-field advantage is often discussed in sports circles as a contributing factor to the outcome of a game. It is universally accepted as something that exists and plays a role in games, especially at the professional level. However, there are many possible reasons behind this, and it's much more difficult to figure out the exact causes of home-field advantage. The COVID-19 pandemic offers us an opportunity to examine one potential reason behind home-field advantage, and that is crowd size. Because there were no fans at any MLB games for the 2020 season due to the pandemic, we have the chance to see whether or nor there is a tangible difference in the impact of home-field advantage when there is no crowd in the stadium. The results find statistically significant evidence of the existence of home-field advantage for both regular games and games without fans, which confirms what most sports fans already assume. However, the results do not find statistically significant evidence of a difference in home-field advantage between the 2020 season and the normal seasons, which indicates that crowd size is not a driver of home-field advantage, contrary to what many may think.
+
+\section*{Introduction}
+Home-field advantage has always been considered an important factor in predictive analysis for sporting events. When broadcasters on television make game predictions, when bookmakers calculate betting odds, and in countless other contexts, the concept of home-field advantage always plays a role in determining predictions regarding the outcome of games. It has been near universally accepted in sports circles that the home team in any professional sports game has an inherent advantage simply due to the fact that the game is being played in their home stadium. However, something that is not as universally agreed upon is the reasons behind this. Is it due the fans in the crowd psychologically impacting the players' performance? Is it due to a sense of comfort players get from being in their home ground? Is it due to referees/umpires subconsonciously giving the home team more favorable calls? Or is it something else entirely? This study was conducted with the goal of first determining whether or not there is statistical evidence that home-field advantage is a real factor in determining the outcome of games, and secondly diving deeper into the potential reasons behind said advantage if it does in fact exist. This study was performed by collecting data on 5 seasons of Major League Baseball (MLB) games, and comparing this to data from the 2020 season, in which there were no fans in the crowd due to the COVID-19 pandemic. The idea was to examine whether there is evidence of home-field advantage, and whether home-field advantage was less important during the 2020 season due to the lack of fans in the stadiums.\\\\
+
+\noindent Previous literature on the topic near unanimously concludes that there is statistically significant evidence of home-field advantage in professional sports. One example is a student research paper from 2018 at Gettysburg College, which examined home-field advantage across the NFL, MLB, and NBA, and their research found statistically significant evidence of home-field advantage across all three sports (Risser). Another paper, published in 2021, looks specifically at the 2019 and 2020 MLB seasons to determine if there is a difference in home-field advantage between the two seasons. This study found that there isn't evidence of a difference, implying that crowd support is not a driver of home-field advantage (Losak). I conducted my research to see whether I would reach the same conclusion as these previous works.\\\\
+
+\noindent This research was completed in two stages. The first stage was simply to test whether or not there is statistically significant evidence of the existance of home-field advantage for the MLB. Both the data from the 2020 season and the data from the five normal seasons observed show that there is. The second step was to test whether there is evidence of home-field advantage being diminished during the 2020 season compared to the other seasons, in which case there would be good reason to believe that crowd presence is a key factor in determining the impact of home-field advantage. The data collected do not show any evidence that home-field advantage was weaker in 2020 than in any other season, implying that crowd presence is in fact not the main driver of home-field advantage in professional baseball games.
+
+\section*{Data}
+All data used in this analysis was originally compiled by Retrosheet, a baseball database that specializes in keeping records of all Major League Baseball games. The data was compiled in Excel, then imported into R. All analysis was performed using R Studio.\\\\
+
+\noindent Two separate samples were used to represent the two different types of games being observed here. The first sample was the game logs for all regular season MLB games played from the 2012-2016 seasons, which was a total of 12,148 games. This sample was picked to be reoresentative of "normal" MLB games, meaning games that had regular fan attendance. The game logs include 161 variables, including home team score, away team score, the team names, whether the game was at night or during the day, and many more. The second sample was the game logs for all regular season games from the 2020 season, chosen to represent MLB games without fan attendance. The sample size for that was 898 games, and included the same 161 variables as the other sample.\\\\
+
+\noindent Two additional variables were also added to both of the samples. One added variable is for run difference, and was calculated simply by subtracting the away team's score from the home team's score for each game. This was done just to add another method of comparing home-field advantage between the two samples, as we could see whether home team's had a higher average run difference in the normal games than in the games without fans. Another added variable is a logic variable, simply stating whether or not the home team won, with each game either having a "Yes" or "No" value. This allows us to view the proportion of games won by the home team in each of the datasets, and test whether it was significantly higher than 50\% to determine significant evidence of home field advantage.
+
+\section*{Methods}
+Before performing any tests or analysis, the first step is to just observe the raw data and see what patterns might be apparent. The main parameters of interest for this study were the average home team score, average away team score, average difference between the home and away teams' scores, and the proportion of games that are won by the home team. All of these parameters are estimated in the samples collected.\\\\
+
+\noindent The following table shows the estimates for the average and standard deviations for the number of home team runs, visiting team runs, and run difference for the 2012-2016 MLB seasons:\\
+
+\noindent Table 1
+\begin{center}
+\begin{tabular}{|l l l|}
+\hline
+& Mean & St. Deviation \\
+\hline
+Home Team Score & 4.315443 & 2.952287 \\ [1ex]
+Visiting Team Score & 4.198222 & 3.065524 \\ [1ex]
+Run Difference & 0.1172209 & 4.181298\\ [1ex]
+\hline
+\end{tabular}
+\end{center}
+
+\noindent As we can see, during this time frame, home teams scored an average of 0.11 runs pergame more than visiting teams. Home teams also won the majority of games in these seasons, as shown in the following table:\\
+
+\noindent Table 2
+\begin{center}
+\begin{tabular} {|l l l|}
+\hline
+Winning Team & Frequency & Proportion \\
+\hline
+Home & 6493 & 0.5344913 \\ [1ex]
+Away & 5654 & 0.4654264 \\ [1ex]
+\hline
+\end{tabular}
+\end{center}
+
+\noindent Based on average runs scored and the proportions of games won by the home and visiting teams, it certainly appears that there is an inherent increased likelihood of home teams to win baseball games. However, we still don't know whether or not these differences are statistically significant, so tests needed to be run to check, which will be discussed later.\\\\
+
+\noindent We see very similar results for the data from the 2020 season, in which there were no fans at games. The following tables show the data from the 2020 season:\\
+
+\noindent Table 3
+\begin{center}
+\begin{tabular}{|l l l|}
+\hline
+& Mean & St. Deviation \\
+\hline
+Home Team Score & 4.742762 & 3.183986 \\ [1ex]
+Visiting Team Score & 4.548998 & 3.354284 \\ [1ex]
+Run Difference & 0.1937639 & 4.695913\\ [1ex]
+\hline
+\end{tabular}
+\end{center}
+
+\noindent Table 4
+\begin{center}
+\begin{tabular} {|l l l|}
+\hline
+Winning Team & Frequency & Proportion \\
+\hline
+Home & 495 & 0.5512249 \\ [1ex]
+Away & 403 & 0.4487751 \\ [1ex]
+\hline
+\end{tabular}
+\end{center}
+
+\noindent For the 2020 season, just like for the 2012-2016 seasons, there appears to be an inherent home-field advantage. However, contrary to the original hypothesis, there doesn't seem to be a reduced impact of home-field advantage due to empty stadiums. In fact, the 2020 season had a higher average run differential, as home teams scored 0.194 more runs per game than visiting teams. Home teams also won about 55.12\% of their games, slightly higher than the 53.45\% they won in the non-COVID seasons.\\\\
+
+\noindent Based on a simple eyeballing of the data, it appears as though there is an inherent home-field advantage whether or not there are fans at the game. It also appears that home-field advantage was no stronger in the normal seasons than it was in the 2020 season, and it may have actually been stronger in the 2020 season. However, a multitude of tests must be ran in order to reach an actual conclusion.\\\\
+
+\section*{Results}
+
+\noindent Analysis of the collected data was performed with two main aims. The first aim was to test whether these results are statistically significant and can allow us to reach a conclusion on the existence of home-field advantage for both regular baseball games and fanless baseball games. The second aim was to determine whether there is evidence of a difference in the degree of home-field advantage for regular games vs. fanless games. Many differene hypothesis tests were run in order to make these determinations.\\\\
+
+\noindent The first thing tested was the difference in average runs scored between the home and away teams for the 2012-2016 data. Because the sample size is very large (n = 12,148), the assumption of a normal sampling distribution for the mean number of runs scored is valid, as per the Central Limit Theorem. Therefore, we can run a two-sample t-test to determine if the mean number of runs scored by home teams is signifcantly higher than the mean number of runs scored by visiting teams. Before running this test, a test for equal variance must be run to determine whether our t-test should be pooled or not. The equal variance test returned a p-value of 3.358e-05, meaning we can conclude that the variances of the runs scored by home teams and the runs scored by away teams are not equal, and therefore a pooled t-test should be run. A two-sample pooled t-test was performed with the following hypotheses:\\
+
+\[H_0: \mu_H = \mu_A\] \[H_1: \mu_H > \mu_A\]
+
+\noindent This t-test returned a p-value of 0.001201, low enough to reject the null hypothesis. This result shows that the difference is statistically significant, and we can conclude that home teams do score more runs on average than away teams in baseball games, which supports the notion that there is home-field advantage in the MLB.\\\\
+
+\noindent This conclusion can be further verified by looking at the proportion of games won by the home team for this time frame. A one proportion z-test was performed on the with the following hypotheses:
+
+\[H_0: p = 0.5\] \[H_1: p > 0.5\]
+
+\noindent In the above expressions, p represents the proportion of games won by the home team when there are fans at games. The proportion test returned a p-value of 1.55e-14, which shows that the observed sample proportion is statistically significant. We can conclude that home teams win a majority of games. This, combined with the results of the two-sample t-test done before, allows us to confidently conclude that home-field advantage does exist for regular MLB seasons with fans in the stadiums.\\\\
+
+\noindent The same process was then repeated for the 2020 data. First, a two-sample t-test was performed on the mean number of runs for home and away teams, just like was done for the 2012-2016 data. Before running this t-test, we had to test for equal variances. The equal variance test returned a p-value of 0.1188, high enough that we can't reject the null hypothesis. Thus, the equal variance assumption is valid and we can run a normal, unpooled two sample t-test on the mean scores. Just like for the 2012-2016 data, this test was run with the following hypotheses:\\
+
+\[H_0: \mu_H = \mu_A\] \[H_1: \mu_H > \mu_A\]
+
+\noindent Surprisingly enough, this t-test returned a relatively high p-value of 0.1047. With this p-value, we can not definitively conclude that home teams score more runs than away teams when there are no fans at the games. The differences from the 2020 data are not statistically significant. However, the one-proportion z-test that was ran led us to a different conclusion.\\\\
+
+\noindent A one-proportion z-test was performed on the proportion of games won by the home team in the 2020 season. The hypotheses were:
+
+\[H_0: p = 0.5\] \[H_1: p > 0.5\]
+
+\noindent In these hypotheses, p represents the proportion of games won by the home team when there are no fans in the stadium. This test returned a p-value of 0.001196. With this low of a p-value, we can see that the observed proportion is statistically significant, and therefore home teams still win a majority of games when there are no fans. While the two-sample t-test on the mean runs scored does not provide sufficient evidence of home-field advantage for such games, the one-proportion z-test does, which is enough to conclude that home-field advantage does in fact exist regardless of whether or not there is a crowd at the game.\\\\
+
+\noindent Once it was determined that there is home-field advantage for games with or without fans, the next part of the analysis was to determine if there is a difference in the degree of home-field advantage for games with fans vs. games without fans. Before even running any tests, we can already see that the prediction that games with fans will have a higher degree of home-field advantage than games without fans will not be supported by the data, as the 2020 season actually had a higher win percentage for home teams (see Tables 2 and 4) and a higher average run differential for the home team (see Tables 1 and 3). However, tests were still ran to see if there is any statistically significant difference between the two datasets, even if it could be in the opposite direction than was originally predicted.\\\\
+
+\noindent First, a two-sided two-sample t-test needed to be ran on the average run differential for the two datasets. As always, and equal variance test was first performed. This returned a p-value of 8.653e-07, implying that the variances are not equal, and our two-sample t-test should be pooled. A pooled t-test on the mean run difference in the two groups was performed with the following hypotheses:
+
+\[H_0: \mu_N = \mu_C\] \[H_1: \mu_N \neq \mu_C\]
+
+\noindent In these expressions, mu with an N subscript represents the mean run difference for normal games (2012-2016 data) and mu with a C subscript represents the mean run difference for COVID games (2020 data). This test returned a p-value of 0.6351. This is very high, and clearly shows no statistically significant evidence of a difference in the average run difference for normal vs. fanless games. The same conclusion can be reached from a two-proportion z-test comparing the proportions of games won by the home team between the two groups. The test was run with the following hypotheses:
+
+\[H_0: p_N = p_C\] \[H_1: p_N \neq p_C\]
+
+\noindent Here, p with an N subscript represents the proportion of games won by the home team for normal games (2012-2016) and p with a C subscript represents the proportion of games won by the home team for COVID games (2020). This test returned a p-value of 0.3495. As with the previous test, this is a high p-value and demonstrates a lack of statistical significance. We do not have any evidence that there is a difference in home team win percentage for games with vs. without fans.
+
+\section*{Discussion}
+
+\noindent The results of this research lead us to a few important conclusions regarding home-field advantage in professional baseball. First, they confirm what has already been universally accepted in the sports world: that there is in fact a tangible advantage for the home team in professional sports. Second, they offer some insight into the reasons behind this and open up further discussion into the potential reasons. While many might assume tht crowd noise is one of the main drivers of home-field advantage, these results show that is not true. During the 2020 MLB season, in which the stadiums were empty for every game, home-field advantage was just as significant as it was for the 2012-2016 seasons, when the stands were full. These results eliminate what many think is the driver behind the advantage for the home team, and open up more questions about what the real cause might be. Maybe it's due to a sense of familiarity and comfortability when playing in one's home ground. Maybe it's due to umpires subconsciously being biased in favor of the home team. Maybe its's beacuse of an inherent advantage that comes with batting second, as the home team always bats second in baseball games. Whatever the reason is, we now have statistical evidence to both confirm many people's assumptions about home-field advantage in sports while also dispelling misconceptions people have about the reasons behind it.
+
+\pagebreak
+\begin{center}
+Appendix
+\end{center}
+
+\begin{center}
+Raw Data Sources
+\end{center}
+
+https://data.world/dataquest/mlb-game-logs \hfill \break
+
+https://www.retrosheet.org/gamelogs/index.html
+
+\pagebreak
+\begin{center}
+References
+\end{center}
+
+Risser, Michael S.; Gray, Blake R.; and Kelly, Ryan A., "Impact of Home Field Advantage: Analyzed Across Three Professional Sports" (2018). Student Publications. 611. \hfill \break
+
+Losak, Jeremy, and Joseph Sabel. “Baseball Home Field Advantage without Fans in the Stands.” International Journal of Sport Finance, vol. 16, no. 3, Aug. 2021, https://doi.org/10.32731/ijsf/163.082021.04. \hfill \break
+
+
+
+
+\end{document}
